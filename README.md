@@ -11,6 +11,8 @@ Unten kann die Aufzeichnung im JSON Format Angesehen werden, oder es kann eine n
 
 Einfach durch rein kopieren!
 
+- Natürlich noch den entsprechenden **Button** oberhalb Textfeld Drücken um von **localStorage zu Holen bzw. zu Speichern**.
+
 
 ### Vorschau
 
