@@ -16,8 +16,8 @@ Einfach durch rein kopieren!
 
 ### Vorschau
 
-z.B. auf
+z.B. auf:
 
 https://htmlpreview.github.io/
 
--Dort die URL des `.html` Files Eingeben.
+- Dort die URL des `.html` Files Eingeben.
