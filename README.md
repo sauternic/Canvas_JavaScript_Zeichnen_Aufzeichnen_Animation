@@ -21,3 +21,8 @@ z.B. auf:
 https://htmlpreview.github.io/
 
 - Dort die URL des `.html` Files Eingeben.
+
+### Läuft auf:
+- Firefox
+- Chrom
+- Opera
