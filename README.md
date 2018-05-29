@@ -1,4 +1,4 @@
-# Canvas_JavaScript_Zeichnen_Aufzeichnen_Animation
+# Canvas JavaScript Zeichnen Aufzeichnen Animation
 
 Einfaches **Canvas Zeichnen Programm mit Aufzeichnung**,
 
