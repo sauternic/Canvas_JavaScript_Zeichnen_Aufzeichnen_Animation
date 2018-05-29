@@ -16,11 +16,7 @@ Einfach durch rein kopieren!
 
 ### Vorschau
 
-z.B. auf:
-
-https://htmlpreview.github.io/
-
-- Dort die URL des `.html` Files Eingeben.
+[Ausführen](http://htmlpreview.github.io/?https://github.com/sauternic/Canvas_JavaScript_Zeichnen_Aufzeichnen_Animation/blob/master/Aufzeichnen_und_Abspielen_Animation.html)
 
 ### Läuft auf:
 - Firefox
