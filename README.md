@@ -16,7 +16,7 @@ Einfach durch rein kopieren!
 
 ### Vorschau
 
-[Ausführen](http://htmlpreview.github.io/?https://github.com/sauternic/Canvas_JavaScript_Zeichnen_Aufzeichnen_Animation/blob/master/Aufzeichnen_und_Abspielen_Animation.html)
+[Ausführen](http://htmlpreview.github.io/?https://github.com/sauternic/Canvas_JavaScript_Zeichnen_Aufzeichnen_Animation/blob/master/Aufzeichen_und_Abspielen_Animation.html)
 
 ### Läuft auf:
 - Firefox
