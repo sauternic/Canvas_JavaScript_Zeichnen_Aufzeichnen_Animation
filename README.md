@@ -6,8 +6,7 @@ Die wieder Abspielbar ist mit dem Animation-Button.
 
 Abbruch der Animation durch Neuladen der Seite.
 
-## Vorschau
-
+# Vorschau:
 ## [Ausführen](http://htmlpreview.github.io/?https://github.com/sauternic/Canvas_JavaScript_Zeichnen_Aufzeichnen_Animation/blob/master/Aufzeichen_und_Abspielen_Animation.html)
 
 Unten kann die **Aufzeichnung im JSON Format** Angesehen werden, oder es kann eine neue Eingegeben werden.
