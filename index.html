@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="utf-8">
+    <style>
+        #canvas1 {
+            background-color: aqua;
+            /*Das Canvas beim zeichnen nicht scrollt*/
+            touch-action: none;
+        }
+    </style>
+    <script>
+        'use strict';
+        //window.onerror = function (e) { alert('Meine Fehlermeldung!: ' + e) };
+        window.onload = function () {
+            function daten_localStorage() {
+                //localStorage Daten zeigen in Textfeld
+                textarea1.value = JSON.stringify(localStorage);
+            }
+            function Textfeld_nach_localStorage() {
+                //Wieder Objekt erzeugen
+                var meineDaten = JSON.parse(textarea1.value);
+                //meineDaten wieder in localStorage Abspeichern,
+                for (let key in meineDaten) {
+                    localStorage[key] = meineDaten[key];
+                }
+            }
+            //#region Deklarationen
+            var flag = true;
+            var flag2 = true;
+            var arr_aufzeichnen = [];
+            var generator;
+            //Wiiiiiiiiiiiiiiiichtig!!
+            var verlauf = 1;
+            var y;
+            var daten_obj;
+            //#endregion 
+            //#region Events Registrieren ****************************************************************************
+            //Neue Pointer Events! %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+            //Pointer Events Abfangen
+            canvas1.addEventListener('pointerup', handlerPointerup);
+            canvas1.addEventListener('pointerdown', handlerPointerdown);
+            canvas1.addEventListener('pointermove', handlerPointermove);
+            //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+            button_neu_zeichnen1.addEventListener('click', handlerNeuZeichnen);
+            button_canvas_löschen1.addEventListener('click', handler_canvas_löschen);
+            button_AufzeichnungLöschen1.addEventListener('click', handler_AufzeichnungLöschen);
+            daten_localStorage1.addEventListener('click', daten_localStorage);
+            Textfeld_nach_localStorage1.addEventListener('click', Textfeld_nach_localStorage);
+            button_animation1.addEventListener('click', handler_animation_start);
+            //#endregion **********************************************************************************************
+            //#region Zeichnen Fläche geben
+            var c = canvas1.getContext('2d');
+            //Grundsatzeinstellungen machen:
+            c.strokeStyle = "#FF0000";
+            c.lineWidth = 10;
+            //#endregion
+            function handler_canvas_löschen() {
+                verlauf = 1;
+                c.clearRect(0, 0, 1700, 800)
+                flag2 = true;
+            }
+            function handler_AufzeichnungLöschen() {
+                //Alles 1 Basiert und nicht 0!!
+                verlauf = 1;
+                localStorage.clear();
+                flag2 = true;
+            }
+            function* datenAuslesenGenerator(d) {
+                //Storage Auslesen
+                var daten_string = localStorage[d];
+                //String Auflösen
+                var arr_daten_str = daten_string.split(',');
+                var werte_x_y_arr = [];
+                for (var x = 0; x < arr_daten_str.length; x++) {
+                    werte_x_y_arr = arr_daten_str[x].split(':');
+                    //Verpacken in Objekt wie Mouse Event(e)
+                    yield { offsetX: werte_x_y_arr[0], offsetY: werte_x_y_arr[1] };
+                }
+            }
+            function handlerNeuZeichnen(e) {
+                verlauf = localStorage.length;
+                for (var y = 1; y <= verlauf; y++) {
+                    flag = true;
+                    for (var d of datenAuslesenGenerator('daten' + y)) {
+                        zeichnen(d);
+                    }
+                    c.closePath();
+                }
+            }
+            //#region ******Animation******************************************************************  
+            function handler_animation_start() {
+                handler_canvas_löschen();
+                verlauf = localStorage.length;
+                if (verlauf == 0)
+                    return;
+                flag = true;
+                y = 1;
+                generator = datenAuslesenGenerator('daten' + y)
+                handler_animation();
+            }
+            //MultiLine Animations Schleife! :)))))
+            function handler_animation() {
+                daten_obj = generator.next();
+                //Ausstiegspunkt!
+                if (daten_obj.done) {
+                    c.closePath();
+                    if (y < verlauf) {
+                        ++y;
+                        generator = datenAuslesenGenerator('daten' + y)
+                        flag = true;
+                        handler_animation();
+                    } else {
+                        //Das immer wieder von vorne Startet! :))
+                        //Die Zeichnung kurz stehenlassen!
+                        setTimeout(handler_canvas_löschen, 500);
+                        //Neustart etwas Verzögern das besser aussieht
+                        setTimeout(handler_animation_start, 600);
+                    }
+                    return;
+                }
+                zeichnen(daten_obj.value);
+                //setTimeout(handler_animation, 100);
+                //handler_animation();
+                requestAnimationFrame(handler_animation);
+            }
+            //#endregion ************************************************************************************
+            function handlerPointerup() {
+                c.closePath();
+                //Zeichnet nur Strings auf!   
+                localStorage['daten' + verlauf] = arr_aufzeichnen
+                ++verlauf;
+                //Array nach Auslesen löschen!!!
+                arr_aufzeichnen = [];
+            }
+            //+++++Entscheident das keine Unterbrüche mehr+++++++++++++++++++++++++++++
+            function handlerPointerdown(e) {
+                if (flag2)
+                    verlauf = 1;
+                flag2 = false;
+                flag = true;
+                //Nur wenn auf Zeichnefläche ist == true
+            }
+            function handlerPointermove(e) {
+                if (e.buttons === 1) {
+                    aufzeichnen(e);
+                    zeichnen(e);
+                }
+            }
+            //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+            function aufzeichnen(e) {
+                arr_aufzeichnen.push(e.offsetX + ":" + e.offsetY);
+            }
+            function zeichnen(e) {
+                //Weniger Probleme wenn hier Deklariert
+                var x = e.offsetX;
+                var y = e.offsetY;
+                if (flag) {
+                    //Stift Ansetzen
+                    c.beginPath();
+                    c.moveTo(x, y);
+                    flag = false;
+                } else {
+                    //Zeichnen
+                    c.lineTo(x, y);
+                    //c.closePath();//Interessanter Effekt alles vom gleichen Punkt zur Maus! :)
+                    c.stroke();
+                }
+            }
+        }
+    </script>
+</head>
+
+<body>
+
+    <input type="button" id="button_neu_zeichnen1" value="Neu Zeichnen">
+    <input type="button" id="button_animation1" value="Animation">
+    <input type="button" id="button_canvas_löschen1" value="Canvas Löschen">
+    <input type="button" id="button_AufzeichnungLöschen1" value="Aufzeichnungen Löschen">
+
+    <br>
+    <canvas style="margin:50px" id="canvas1" height="800" width="1700"></canvas>
+    <br>
+    <input type="button" id="daten_localStorage1" value="Daten von localStorage zeigen">
+    <input type="button" id="Textfeld_nach_localStorage1" value="Textfeld nach localStorage speichern">
+    <br>
+    <!--textarea wrap="off" id="textarea1"></textarea-->
+    <textarea id="textarea1" style="width: 1800px; height: 800px; font-size: 20px;"></textarea>
+</body>
+
+</html>
