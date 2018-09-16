@@ -8,8 +8,8 @@ Die wieder Abspielbar ist mit dem Animation-Button.
 
 Abbruch der Animation durch Neuladen der Seite.
 
-# Vorschau:
-## [Ausführen](https://sauternic.github.io/Canvas_JavaScript_Zeichnen_Aufzeichnen_Animation/)
+# Preview:
+# [Show](https://sauternic.github.io/Canvas_JavaScript_Zeichnen_Aufzeichnen_Animation/)
 
 Unten kann die **Aufzeichnung im JSON Format** Angesehen werden, oder es kann eine neue Eingegeben werden.
 
